@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Page, Card, Form, FormLayout, TextField, Button, Frame, Toast, ButtonGroup } from "@shopify/polaris";
-import { useFetcher, useLoaderData, useNavigate } from "@remix-run/react";
-import { getProductById, updateProductAndVariantById } from "~/utils/shopify.service";
+import React, {useState, useEffect} from "react";
+import {Page, Card, Form, FormLayout, TextField, Button, Frame, Toast, ButtonGroup} from "@shopify/polaris";
+import {useFetcher, useLoaderData, useNavigate} from "@remix-run/react";
+import {getProductById, updateProductAndVariantById} from "~/utils/shopify.service";
 
-export const loader = async ({ request }: { request: Request }) => {
+export const loader = async ({request}: { request: Request }) => {
     try {
         const url = new URL(request.url);
         const productId = url.searchParams.get("id") || null;
@@ -14,7 +14,7 @@ export const loader = async ({ request }: { request: Request }) => {
 
         const product = await getProductById(productId);
 
-        return { product, productId };
+        return {product, productId};
     } catch (error) {
         console.error("Error fetching product:", error);
         throw new Response("Failed to load product. Please try again later.", {
@@ -25,9 +25,9 @@ export const loader = async ({ request }: { request: Request }) => {
 };
 
 export default function EditProduct() {
-    const { product, productId } = useLoaderData();
+    const {product, productId} = useLoaderData();
     const fetcher = useFetcher();
-    const navigate = useNavigate(); // To handle navigation back to index
+    const navigate = useNavigate();
 
     const variantId = product.variants[0].id;
 
@@ -36,8 +36,8 @@ export default function EditProduct() {
     const [price, setPrice] = useState(product.variants[0]?.price);
     const [sku, setSku] = useState(product.variants[0]?.sku);
 
-    const [toastMessage, setToastMessage] = useState<string | null>(null); // Message to display in Toast
-    const [toastError, setToastError] = useState<boolean>(false); // True if it's an error message
+    const [toastMessage, setToastMessage] = useState<string | null>(null);
+    const [toastError, setToastError] = useState<boolean>(false);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -51,11 +51,10 @@ export default function EditProduct() {
                 price,
                 sku,
             },
-            { method: "post" }
+            {method: "post"}
         );
     };
 
-    // Display success or error Toast based on fetcher state
     useEffect(() => {
         if (fetcher.state === "idle" && fetcher.data) {
             if (fetcher.data.success) {
@@ -126,7 +125,7 @@ export default function EditProduct() {
     );
 }
 
-export async function action({ request }: { request: Request }) {
+export async function action({request}: { request: Request }) {
     const formData = await request.formData();
 
     const productId = formData.get("productId");
@@ -139,9 +138,9 @@ export async function action({ request }: { request: Request }) {
     try {
         await updateProductAndVariantById(
             productId,
-            { title, status },
+            {title, status},
             variantId,
-            { price, sku }
+            {price, sku}
         );
 
         return {

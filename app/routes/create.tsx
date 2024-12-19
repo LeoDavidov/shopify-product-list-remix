@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Page, Card, Form, FormLayout, TextField, Button, Frame, Toast, ButtonGroup } from "@shopify/polaris";
-import { useFetcher, useNavigate } from "@remix-run/react";
-import { createProduct } from "~/utils/shopify.service";
+import React, {useState} from "react";
+import {Page, Card, Form, FormLayout, TextField, Button, Frame, Toast, ButtonGroup} from "@shopify/polaris";
+import {useFetcher, useNavigate} from "@remix-run/react";
+import {createProduct} from "~/utils/shopify.service";
 
 export default function CreateProduct() {
     const [title, setTitle] = useState("");
@@ -10,7 +10,7 @@ export default function CreateProduct() {
     const [toastMessage, setToastMessage] = useState<string | null>(null);
     const [toastError, setToastError] = useState<boolean>(false);
     const fetcher = useFetcher();
-    const navigate = useNavigate(); // For navigating back to the index page
+    const navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -21,11 +21,10 @@ export default function CreateProduct() {
                 price,
                 sku,
             },
-            { method: "post" }
+            {method: "post"}
         );
     };
 
-    // Handle success or error messages based on fetcher state
     React.useEffect(() => {
         if (fetcher.state === "idle" && fetcher.data) {
             if (fetcher.data.success) {
@@ -93,7 +92,7 @@ export default function CreateProduct() {
     );
 }
 
-export async function action({ request }: { request: Request }) {
+export async function action({request}: { request: Request }) {
     const formData = await request.formData();
 
     const title = formData.get("title") as string;

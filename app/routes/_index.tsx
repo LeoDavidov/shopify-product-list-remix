@@ -7,10 +7,10 @@ import {
     BlockStack,
     Spinner,
 } from "@shopify/polaris";
-import { useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
-import { fetchProd } from "~/utils/shopify.service";
+import {useLoaderData, useNavigate, useNavigation} from "@remix-run/react";
+import {fetchProd} from "~/utils/shopify.service";
 
-export const loader = async ({ request }: { request: Request }) => {
+export const loader = async ({request}: { request: Request }) => {
     const url = new URL(request.url);
     const cursor = url.searchParams.get("cursor") || null;
     const direction = url.searchParams.get("direction") || "next";
@@ -20,7 +20,7 @@ export const loader = async ({ request }: { request: Request }) => {
 };
 
 export default function Index() {
-    const { products, hasNext, hasPrevious, nextCursor, previousCursor } =
+    const {products, hasNext, hasPrevious, nextCursor, previousCursor} =
         useLoaderData();
     const navigate = useNavigate();
     const navigation = useNavigation();
@@ -36,7 +36,7 @@ export default function Index() {
     if (navigation.state === "loading") {
         return (
             <div className="flex h-screen items-center justify-center">
-                <Spinner accessibilityLabel="Loading products" size="large" />
+                <Spinner accessibilityLabel="Loading products" size="large"/>
             </div>
         );
     }
