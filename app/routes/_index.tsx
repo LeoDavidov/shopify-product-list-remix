@@ -8,7 +8,7 @@ import {
     Spinner,
 } from "@shopify/polaris";
 import { useLoaderData, useNavigate, useNavigation } from "@remix-run/react";
-import {fetchProd} from "~/utils/shopify.service";
+import { fetchProd } from "~/utils/shopify.service";
 
 export const loader = async ({ request }: { request: Request }) => {
     const url = new URL(request.url);
@@ -20,11 +20,12 @@ export const loader = async ({ request }: { request: Request }) => {
 };
 
 export default function Index() {
-    const { products, hasNext, hasPrevious, nextCursor, previousCursor } = useLoaderData();
+    const { products, hasNext, hasPrevious, nextCursor, previousCursor } =
+        useLoaderData();
     const navigate = useNavigate();
     const navigation = useNavigation();
 
-    const handlePagination = (direction: "next" | "previous") => {
+    const handlePagination = (direction: "next" | "previous"): void => {
         const cursor = direction === "next" ? nextCursor : previousCursor;
 
         if (!cursor) return;
@@ -51,25 +52,31 @@ export default function Index() {
     ]);
 
     return (
-            <Page title="Products">
-                <BlockStack align="space-evenly">
-                    <Button variant="primary" onClick={() => navigate("/create")}>
-                        Create Product
-                    </Button>
-                </BlockStack>
-                <Card>
-                    <DataTable
-                        columnContentTypes={["text", "text", "text", "text"]}
-                        headings={["Title", "Status", "Variant Price", "Variant SKU"]}
-                        rows={rows}
-                    />
-                </Card>
-                <Pagination
-                    hasNext={hasNext}
-                    hasPrevious={hasPrevious}
-                    onNext={() => handlePagination("next")}
-                    onPrevious={() => handlePagination("previous")}
+        <Page title="Products">
+            <BlockStack align="space-evenly">
+                <Button variant="primary" onClick={() => navigate("/create")}>
+                    Create Product
+                </Button>
+            </BlockStack>
+            <Card>
+                <DataTable
+                    columnContentTypes={[
+                        "text",
+                        "text",
+                        "numeric",
+                        "text",
+                        "text",
+                    ]}
+                    headings={["Title", "Status", "Variant Price", "Variant SKU", "Actions"]}
+                    rows={rows}
                 />
-            </Page>
+            </Card>
+            <Pagination
+                hasNext={hasNext}
+                hasPrevious={hasPrevious}
+                onNext={() => handlePagination("next")}
+                onPrevious={() => handlePagination("previous")}
+            />
+        </Page>
     );
 }
