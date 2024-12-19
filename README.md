@@ -2,6 +2,13 @@
 
 - 📖 [Remix docs](https://remix.run/docs)
 
+## .env
+In the root dir create an .env file with the following fields:
+```
+SHOPIFY_APP_URL
+SHOPIFY_ACCESS_TOKEN
+```
+
 ## Development
 
 Run the dev server:
